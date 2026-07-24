@@ -28,7 +28,13 @@ dependencies = [
     "pyotp>=2.6.0,<3.0.0",
     "webauthn>=2.0.0,<3.0.0",
 ]
-optional-dependencies = {}
+
+
+[project.optional-dependencies]
+lint = ["ruff", "flake8", "pycodestyle"]
+test = ["mock", "pytest-ckan", "pytest-cov", "pytest-pretty"]
+docs = []
+dev = []
 
 [project.readme]
 file = "README.md"

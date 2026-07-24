@@ -1,10 +1,26 @@
 name: Tests
 on:
-  push:
-  pull_request:
-  workflow_dispatch: #Allow manual re-running of tests
+    push:
+    pull_request:
+    workflow_dispatch:
+    workflow_call:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #v7
+        - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 #v7
+          with:
+            python-version: '3.14'
+        - name: Install requirements
+          run: pip install flake8 pycodestyle
+        - name: Check syntax
+          run: flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics --extend-exclude ckan
+#        - name: Ruff Check
+#          run:  pip intall ruff && ruff --config pyproject.toml check ##We use an action hook but locally should be this command
+        - uses: astral-sh/ruff-action@0ce1b0bf8b818ef400413f810f8a11cdbda0034b #v4.0.0
+
   test:
     strategy:
       fail-fast: false
@@ -44,7 +60,7 @@ jobs:
       CKAN_REDIS_URL: redis://redis:6379/1
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #v7
         timeout-minutes: 1
         continue-on-error: ${{ matrix.experimental }}
 
@@ -53,6 +69,7 @@ jobs:
         run: |
           pip install "setuptools>=44.1.0,<71"
           pip install -r dev-requirements.txt
+          pip install -r test-requirements.txt
           pip install -e .
           # Replace default path to CKAN core config file with the one on the container
           sed -i -e 's/use = config:.*/use = config:\/srv\/app\/src\/ckan\/test-core.ini/' test.ini
@@ -71,7 +88,7 @@ jobs:
         continue-on-error: ${{ matrix.experimental }}
 
       - name: ${{ matrix.experimental && '**Fail_Ignored** ' || '' }} Test Summary
-        uses: test-summary/action@v2
+        uses: test-summary/action@37b508cfee6d4d080eedd00b5bb240a6a784a6a5 #v2
         continue-on-error: ${{ matrix.experimental }}
         with:
           paths: "/tmp/artifacts/junit/*.xml"
