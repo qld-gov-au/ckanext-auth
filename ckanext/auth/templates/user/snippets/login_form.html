@@ -9,7 +9,7 @@
 {% set is_2fa_enabled = h.is_2fa_enabled() %}
 {% set is_passkey_enabled = h.is_passkey_enabled() %}
 
-<form id="mfa-login-form" action="{{ action }}" method="post"
+<form id="mfa-login-form" action="{{ action }}" method="post" autocomplete="off"
     data-module="auth-login-form"
     data-module-enabled="{{ h.is_2fa_enabled() | tojson }}"
     data-module-mfa-method="{{ h.get_2fa_method() }}">
@@ -24,9 +24,9 @@
     </div>
 
     <div id="login-form">
-        {{ form.input('login', label=_("Username or Email"), id='field-login', value="", error=username_error, classes=["control-medium"]) }}
+        {{ form.input('login', label=_("Username or Email"), id='field-login', value="", error=username_error, classes=["control-medium"], attrs={'class': 'form-control', 'autocomplete': 'off'}) }}
 
-        {{ form.input('password', label=_("Password"), id='field-password', type="password", value="", error=password_error, classes=["control-medium"]) }}
+        {{ form.input('password', label=_("Password"), id='field-password', type="password", value="", error=password_error, classes=["control-medium"], attrs={'class': 'form-control', 'autocomplete': 'off'}) }}
 
         {{ form.checkbox('remember', label=_("Remember me"), id='field-remember', checked=true, value="63072000") }}
 
