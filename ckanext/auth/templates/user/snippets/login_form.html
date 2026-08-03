@@ -24,7 +24,7 @@
     </div>
 
     <div id="login-form">
-        {{ form.input('login', label=_("Username or Email"), id='field-login', value="", error=username_error, classes=["control-medium"], attrs={'class': 'form-control', 'autocomplete': 'off'}) }}
+        {{ form.input('login', label=_('Username or Email'), id='field-login', value='', error=username_error, classes=['control-medium', 'form-control'], attrs={'autocomplete': 'off'}) }}
 
         {{ form.input('password', label=_("Password"), id='field-password', type="password", value="", error=password_error, classes=["control-medium"], attrs={'class': 'form-control', 'autocomplete': 'off'}) }}
 
