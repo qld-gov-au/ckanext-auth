@@ -128,6 +128,8 @@ def init_qr_code() -> Response:
     secret = UserSecret.get_for_user(user_name)
     if not secret:
         secret = UserSecret.create_for_user(user_name)
+
+    if not bool(secret.last_access):
         return jsonify(
             {
                 "success": True,

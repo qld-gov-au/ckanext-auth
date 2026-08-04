@@ -159,7 +159,8 @@ ckan.module("auth-login-form", function () {
                     this.errorContainer.hide();
 
                     if (!resp.result.accessed) {
-                        this.mfaSetup.show();
+                        //this.mfaSetup.show();
+                        this.mfaSetup.removeClass('hidden');
 
                         new QRious({
                             element: document.getElementById("mfa-qr-code-container"),

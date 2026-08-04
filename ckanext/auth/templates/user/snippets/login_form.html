@@ -17,6 +17,27 @@
 {% set is_2fa_enabled = h.is_2fa_enabled() %}
 {% set is_passkey_enabled = h.is_passkey_enabled() %}
 
+
+{% if is_passkey_enabled %}
+  {% block passkey_block %}
+  <div class="passkey-login-section d-flex flex-column align-items-center border-top pt-3 my-3">
+
+      {% block passkey_button %}
+      <button type="button" class="btn btn-primary btn-block"
+          data-module="auth-passkey-login">
+          {{ _('Sign in with a passkey') }}
+      </button>
+      {% endblock %}
+
+      {% block passkey_separator %}
+      <div class="passkey-separator w-100 text-center border-bottom pb-3 my-3">
+          <span>{{ _('or') }}</span>
+      </div>
+      {% endblock %}
+  </div>
+  {% endblock %}
+{% endif %}
+
 {% block login_form_main %}
     {% block login_form_header %}
     <form action="{{ action }}" method="post"
@@ -43,9 +64,9 @@
         {% block login_form %}
             <div id="login-form">
                 {% block login_default_fields %}
-                    {{ form.input('login', label=_("Username or Email"), id='field-login', value="", icon='user', error=username_error, classes=["control-medium", "form-control"], attrs={"autocomplete": "off"}) }}
+                    {{ form.input('login', label=_("Username or Email"), id='field-login', value="", error=username_error, classes=["control-medium"], attrs={"autocomplete": "off"}) }}
 
-                    {{ form.input('password', label=_("Password"), id='field-password', type="password", value="", error=password_error, classes=["control-medium", "form-control"], attrs={"autocomplete": "off"}) }}
+                    {{ form.input('password', label=_("Password"), id='field-password', type="password", value="", error=password_error, classes=["control-medium"], attrs={"autocomplete": "off"}) }}
                 {% endblock %}
 
                 {% block login_forgot %}
@@ -80,15 +101,15 @@
         {% endblock %}
 
         {% if is_2fa_enabled %}
-            {% block 2fa_block %}
+            {% block two_fa_block %}
             <input id="mfa-type" name="mfa_type" type="hidden" value="{{ h.get_2fa_method() }}" />
 
             {% if h.is_totp_2fa_enabled() %}
-                {% block 2fa_totp_block %}
+                {% block two_fa_totp_block %}
                 {% snippet "auth/snippets/2fa_authenticator.html" %}
                 {% endblock %}
             {% else %}
-                {% block 2fa_email_block %}
+                {% block two_fa_email_block %}
                 {% snippet "auth/snippets/2fa_email.html" %}
                 {% endblock %}
             {% endif %}
@@ -97,21 +118,3 @@
     </form>
 {% endblock %}
 
-{% if is_passkey_enabled %}
-  {% block passkey_block %}
-  <div class="passkey-login-section d-flex flex-column align-items-center">
-      {% block passkey_separator %}
-      <div class="passkey-separator w-100 text-center border-top pt-3 my-3">
-          <span>{{ _('or') }}</span>
-      </div>
-      {% endblock %}
-
-      {% block passkey_button %}
-      <button type="button" class="btn btn-primary btn-block"
-          data-module="auth-passkey-login">
-          {{ _('Sign in with a passkey') }}
-      </button>
-      {% endblock %}
-  </div>
-  {% endblock %}
-{% endif %}
