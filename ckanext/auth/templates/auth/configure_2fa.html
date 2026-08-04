@@ -23,8 +23,8 @@
                 {{ _("Enter the two factor authentication code from your app to test correct configuration.") }}
             </p>
             <p>
-                <b>{{ _("Regenerate secret") }}</b>:
-                {{ _("You might need it if you lost an access to your 2FA device or want to setup another one.") }}
+                <b>{{ _("Remove and generate 2FA secret") }}</b>:
+                {{ _("You might need it if you lost access to your 2FA device or believe it has been compromised.") }}
             </p>
         </div>
     </section>
@@ -36,14 +36,22 @@
     <form id="mfa-form" method="POST">
         {{ h.csrf_input() }}
 
+        <div id="mfa-qr-display" class="hide">
         {% snippet "auth/snippets/2fa_qr_code.html", totp_secret=totp_secret, provisioning_uri=provisioning_uri %}
+        </div>
 
         <div class="form-actions">
             <a class="btn btn-default m-0 me-auto" href="{{ h.url_for('user.edit', id=user_dict.name) }}">{{ _("Back") }}</a>
 
+            {% if h.is_passkey_enabled() %}
+                <a href="{{ h.url_for('auth_passkey.passkeys', id=data.name )}}" class="btn btn-secondary">
+                    <i class="fa fa-key"></i> {{ _('Manage Passkeys') }}
+                </a>
+            {% endif %}
+
             <a class="btn btn-danger" href="{{ h.url_for('auth.regenerate_secret', user_id=user_id) }}" data-module="confirm-action"
-                data-module-i18n="{{ h.dump_json({'content': _('Are you sure you want to generate a new 2FA secret?')}) }}">
-                {{ _('Regenerate 2FA secret') }}
+                data-module-i18n="{{ h.dump_json({'content': _('Are you sure you want to remove and generate a new 2FA secret?')}) }}">
+                {{ _('Remove and generate new 2FA secret') }}
             </a>
 
             <button class="btn btn-primary" type="submit">{{_('Test')}}</button>

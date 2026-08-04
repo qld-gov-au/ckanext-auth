@@ -1,12 +1,13 @@
-<fieldset id="mfa-qr-code" {% if not totp_secret %}style="display: none;"{% endif %}>
+{% if totp_secret and provisioning_uri %}
+
+<fieldset id="mfa-qr-code">
     <div class="auth-qr-code-container align-items-center d-flex gap-3">
         <canvas
             id="mfa-qr-code-container"
             class="radius-lg padding-sm margin-b-sm border-solid"
-            {%- if provisioning_uri -%}
                 data-module="auth-qr-render" data-module-value="{{ provisioning_uri }}"
-            {%- endif -%}
-        ></canvas>
+        >
+        </canvas>
         <div>
             <h3>{{_('Scan this QR code with your 2FA app')}}</h3>
 
@@ -17,12 +18,12 @@
         </div>
     </div>
 
-    {% if totp_secret %}
-        <div class="form-group control-medium">
-            <label class="form-label" for="field-code">{{ _("2FA Code") }}</label>
-            <div class="controls ">
-                <input id="code" type="text" name="code" autocomplete="off" class="form-control">
-            </div>
+    <div class="form-group control-medium">
+        <label class="form-label" for="field-code">{{ _("2FA Code") }}</label>
+        <div class="controls ">
+            <input id="code" type="text" name="code" autocomplete="off" class="form-control">
         </div>
-    {% endif %}
+    </div>
 </fieldset>
+
+{% endif %}

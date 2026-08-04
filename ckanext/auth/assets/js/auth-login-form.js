@@ -73,7 +73,7 @@ ckan.module("auth-login-form", function () {
                 this._sendVerificationCode();
             } else {
                 this._initQrCode();
-            };
+            }
         },
 
         _setResendCountdown: function () {
@@ -111,7 +111,7 @@ ckan.module("auth-login-form", function () {
 
         _sendVerificationCode: function () {
             $.ajax({
-                url: "/mfa/send_verification_code",
+                url: "/user/mfa/send_verification_code",
                 method: "POST",
                 data: this.form.serialize(),
                 success: (_) => {
@@ -134,7 +134,7 @@ ckan.module("auth-login-form", function () {
             }
 
             $.ajax({
-                url: "/mfa/get-user-code",
+                url: "/user/mfa/get-user-code",
                 method: "POST",
                 data: this.form.serialize(),
                 success: (response) => {
@@ -152,7 +152,7 @@ ckan.module("auth-login-form", function () {
 
         _initQrCode: function () {
             $.ajax({
-                url: "/mfa/init_qr_code",
+                url: "/user/mfa/init_qr_code",
                 method: "POST",
                 data: this.form.serialize(),
                 success: (resp) => {
@@ -168,7 +168,7 @@ ckan.module("auth-login-form", function () {
                         })
 
                         $("#mfa-secret").text(resp.result.secret);
-                    };
+                    }
                 },
                 error: (resp) => {
                     console.error(resp);
@@ -215,7 +215,7 @@ ckan.module("auth-login-form", function () {
                     if (resp.result.valid) {
                         this.form.off("submit", this._onFormSubmit);
                         this.form.submit();
-                    };
+                    }
                 },
                 error: (resp) => {
                     console.error(resp);
