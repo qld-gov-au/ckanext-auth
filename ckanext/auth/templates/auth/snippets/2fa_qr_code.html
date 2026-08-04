@@ -3,7 +3,7 @@
 
 <fieldset id="mfa-qr-code" class="{% if not totp_secret %}hidden{% endif %}">
     {% if totp_secret %}
-    {# Don't display secret when visiting manage page, user must interact view to not visually leak mfa token #}
+    {# Don't display secret when visiting manage page, user must interact with the view to not visually leak mfa token #}
         <fieldset id="mfa-show-qr-code-fieldset" class="pb-3">
             <button class="btn btn-primary" id="mfa-show-qr-code">{{ _('Display 2FA Code') }}</button>
         </fieldset>

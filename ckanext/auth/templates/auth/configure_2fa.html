@@ -50,7 +50,7 @@
             {% endif %}
 
             <a class="btn btn-danger" href="{{ h.url_for('auth.regenerate_secret', user_id=user_id) }}" data-module="confirm-action"
-                data-module-i18n="{{ h.dump_json({'content': _('Are you sure you want to remove and generate a new 2FA secret?')}) }}">
+                data-module-i18n="{{ h.dump_json({'content': _('Are you sure you want to remove the 2FA secret and generate a new one?')}) }}">
                 {{ _('Remove current 2FA secret') }}
             </a>
 
