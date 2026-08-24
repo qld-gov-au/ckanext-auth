@@ -83,7 +83,9 @@
                     {% endblock %}
                 {% endif %}
 
+                {% block login_form_actions %}
                 <div class="form-actions">
+                {% block login_form_actions_inner %}
                     {% if h.check_access('user_create') %}
                       {% block create_account_button %}
                         <a class="btn btn-link" href="{{ h.url_for('user.register') }}">{{ _('Create account') }}</a>
@@ -96,7 +98,9 @@
                             <button class="btn btn-primary" type="submit">{{ _('Login') }}</button>
                         {% endif %}
                     {% endblock %}
+                {% endblock %}
                 </div>
+                {% endblock %}
             </div>
         {% endblock %}
 
@@ -117,4 +121,3 @@
         {% endif %}
     </form>
 {% endblock %}
-
